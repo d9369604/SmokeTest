@@ -4,12 +4,24 @@ from locators import HomePageLocators
 from test_data import LoginTestData
 from test_data import HomePageTestData
 from time import sleep
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
-class HomePage(BasePage):
+class HomePage:
+
+    def __init__(self, driver):
+        self.driver = driver
+        self.isLoggedin()
+
+    def isLoggedin(self):
+        more_icon = self.driver.find_element(*HomePageLocators.MORE_ICON)
+        more_icon_visible = WebDriverWait(self.driver, 5).until(EC.visibility_of(more_icon))
+        if not more_icon_visible:
+            raise Exception('Home page is not loaded')
 
     def check_page_loaded(self):
-        return True if self.driver.find_element(*HomePageLocators.MORE_ICON) else False
+        return self.driver.find_element(*HomePageLocators.MORE_ICON)
 
     def check_user_name(self):
         name = self.driver.find_element(*HomePageLocators.USER_NAME)

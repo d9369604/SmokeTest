@@ -1,4 +1,6 @@
 import unittest
+import time
+from selenium import webdriver
 from base_test_case import BaseTestCase
 from login_page import LoginPage
 from homepage import HomePage
@@ -8,19 +10,29 @@ from search import SearchRegion
 from test_data import SearchTestData
 
 
-class LoginTest(BaseTestCase):
+class LoginTest(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.implicitly_wait(5)
+        self.driver.get('https://play.kkbox.com/')
 
     def test_login_success(self):
         login_page = LoginPage(self.driver)
-        homepage = login_page.loginAs(username, password)
+        homepage = login_page.loginAs('garycheng@kkbox.com', '131438')
         self.assertTrue(homepage.isLoggedin)
 
     def test_wrong_password(self):
         login_page = LoginPage(self.driver)
-        login_page.enter_account(username)
+        login_page.enter_account('garycheng@kkbox.com')
         login_page.enter_passwd("123")
         homepage = login_page.submit()
         self.assertFalse(homepage.isLoggedin)
+
+    def tearDown(self):
+        # self.driver.close()
+        time.sleep(3)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
