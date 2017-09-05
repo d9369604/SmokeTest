@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import re
-# from base import BasePage
-# froom locators import HomePageLocators
 from test_data import LoginTestData
 from test_data import HomePageTestData
 from time import sleep
@@ -17,10 +15,9 @@ class HomePage:
         self.isLoggedin()
 
     def isLoggedin(self):
-        more_icon = self.driver.find_element(*HomePageLocators.MORE_ICON)
-        more_icon_visible = WebDriverWait(self.driver, 5).until(EC.visibility_of(more_icon))
-        if not more_icon_visible:
-            raise Exception('Home page is not loaded')
+        return WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(HomePageLocators.MORE_ICON)
+        )
 
     def check_page_loaded(self):
         return self.driver.find_element(*HomePageLocators.MORE_ICON)

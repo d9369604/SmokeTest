@@ -1,12 +1,28 @@
 import time
-from base import BasePage
-from locators import SearchLocators
 from expected_result import SearchExpected
-# from test_data import SearchTestData
+from artist import Artist
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
-class SearchRegion(BasePage):
+class SearchRegion:
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def search(self, item):
+        self.driver.find_element(*SearchLocators.SEARCH_FORM).send_keys(item)
+        self.driver.find_element(*SearchLocators.SEARCH_BTN).click()
+        return self
+
+    def selectArtist(self, index):
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(SearchLocators.ARTISTS)
+        )
+        self.driver.find_elements(*SearchLocators.ARTISTS)[index].click()
+        return Artist(self.driver)
 
     def search_for(self, item):
         self.driver.find_element(*SearchLocators.SEARCH_FORM).send_keys(item)
@@ -69,3 +85,15 @@ class SearchRegion(BasePage):
     def alert_info(self):
         alert_info = self.driver.find_element(*SearchLocators.ALERT_INFO)
         return alert_info.text
+
+class SearchLocators:
+    SEARCH_BTN = (By.ID, 'search_btn_cnt')
+    SEARCH_FORM = (By.XPATH, "//input[@class='search_hint ng-pristine ng-untouched ng-valid']")
+    SEARCH_MESSAGE = (By.CSS_SELECTOR, 'h5.message.ng-binding')
+    ALERT_INFO = (By.XPATH, "//div[@ng-show='!$messageTemplate']")
+    ALERT_CLOSE_BTN = (By.CLASS_NAME, 'cg-notify-close')
+    PREVIEWS_TITLE = (By.XPATH, "//a[@class='catlb ui-corner-all ng-binding']")
+    RESULT_TITLE = (By.CSS_SELECTOR, 'h2.section-title.ng-binding')
+    SONG_LIST = (By.XPATH, "//tr[@context-menu='right-main-songMode']")
+    SONG = (By.XPATH, "//td[@class='ng-binding']")
+    ARTISTS = (By.CSS_SELECTOR, 'h4.item-h.artist-name')
