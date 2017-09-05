@@ -25,14 +25,12 @@ class LoginTest(unittest.TestCase):
 
     def test_wrong_password(self):
         login_page = LoginPage(self.driver)
-        login_page.enter_account('garycheng@kkbox.com')
-        login_page.enter_passwd("123")
-        homepage = login_page.submit()
-        self.assertFalse(homepage.isLoggedin)
+        error_page = login_page.loginError('garycheng@kkbox.com', '111')
+        self.assertTrue(error_page.isPasswordIncorrect)
 
     def tearDown(self):
-        # self.driver.close()
         time.sleep(3)
+        self.driver.close()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

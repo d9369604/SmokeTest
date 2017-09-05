@@ -1,6 +1,4 @@
 import os
-#import pyautogui
-#from opencv import compare
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
