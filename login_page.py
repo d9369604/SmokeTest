@@ -1,6 +1,6 @@
 from base import BasePage
 from homepage import HomePage
-from locators import LoginPageLocators
+from selenium.webdriver.common.by import By
 from test_data import LoginTestData
 
 
@@ -32,3 +32,8 @@ class LoginPage:
     def submit(self):
         self.driver.find_element(*LoginPageLocators.LOGIN_BTN).click()
 
+
+class LoginPageLocators:
+    USER = (By.ID, 'uid')
+    PWD = (By.ID, 'pwd')
+    LOGIN_BTN = (By.ID, 'login-btn')

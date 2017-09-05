@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 import re
-from base import BasePage
-from locators import HomePageLocators
+# from base import BasePage
+# froom locators import HomePageLocators
 from test_data import LoginTestData
 from test_data import HomePageTestData
 from time import sleep
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -137,3 +139,18 @@ class HomePage:
                     return False
         return True
 
+
+class HomePageLocators:
+    MORE_ICON = (By.XPATH, "//button[@class='btn-more pull-right ng-binding ng-scope']")
+    MY_MUSIC_ICON = (By.LINK_TEXT, u'我的音樂庫')
+    USER_NAME = (By.CSS_SELECTOR, 'span.user-name.ng-binding')
+    SLIDER = (By.ID, 'slider')
+    CAROUSEL = (By.ID, 'carousel')
+    SLIDER_FOCUS = (By.CSS_SELECTOR, 'li.ng-scope.flex-active-slide')
+    SLIDER_LIST = (By.CLASS_NAME, 'slides')
+    SLIDER_R_BTN = (By.CLASS_NAME, 'flex-next')
+    SLIDER_L_BTN = (By.CLASS_NAME, 'flex-prev')
+    NEW_SONG = (By.XPATH, "//div[@context-menu='right-main-preReleaseMode']")
+    PLAY_NEW_SONG = (By.XPATH, "//a[@class='btn-play ng-scope']")
+    GENRES = (By.CLASS_NAME, 'genres')
+    GENRES_PREVIEWS = (By.CSS_SELECTOR, 'ul.cards.ng-scope')
