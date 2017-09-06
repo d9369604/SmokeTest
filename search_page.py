@@ -1,13 +1,13 @@
 import time
 from expected_result import SearchExpected
-from artist import Artist
+from artist_page import ArtistPage
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class SearchRegion:
+class SearchPage:
 
     def __init__(self, driver):
         self.driver = driver
@@ -22,7 +22,7 @@ class SearchRegion:
             EC.element_to_be_clickable(SearchLocators.ARTISTS)
         )
         self.driver.find_elements(*SearchLocators.ARTISTS)[index].click()
-        return Artist(self.driver)
+        return ArtistPage(self.driver)
 
     def search_for(self, item):
         self.driver.find_element(*SearchLocators.SEARCH_FORM).send_keys(item)

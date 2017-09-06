@@ -2,20 +2,23 @@
 import unittest
 import time
 from selenium import webdriver
-from login_page import LoginPage
-from search import SearchRegion
+from kkbox_builder import KKBOXBuilder
 
 
 class SearchTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        #login
-        cls.driver = webdriver.Chrome()
-        LoginPage(cls.driver).loginAs('garycheng@kkbox.com', '131438')
+        cls.driver = webdriver
+        cls.kkbox = KKBOXBuilder(cls.driver)\
+            .browser('chrome')\
+            .maximizeWindow()\
+            .login('garycheng@kkbox.com', '131438')\
+            .goto('Search')\
+            .build()
 
     def testSearchLinkinParkAndPlay(self):
-        song_name = SearchRegion(self.driver)\
+        song_name = self.kkbox\
             .search("Linkin Park")\
             .selectArtist(0)\
             .play(0)\
@@ -24,10 +27,8 @@ class SearchTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        # quit browser
         time.sleep(3)
-        cls.driver.close()
-
+        cls.kkbox.driver.close()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
